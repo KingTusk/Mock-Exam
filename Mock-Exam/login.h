@@ -7,7 +7,7 @@
 
 char loginarray[9]{ '1','2','3','4','5','6','7','8','9' };
 char password[4]{ '4','5','2','3' };
-int Aposition = 0;
+int Aposition = 0; //this is the position of the asterisk on the table
 int fails = 0;
 bool endlogin = false;
 char input[4]{ 'n','n','n','n' };
@@ -17,8 +17,8 @@ void fixAposition();
 void Printtable();
 bool Enterpassword();
 
-void fixAposition() {//this function changes Aposition if it is outside the range of login array
-	if (Aposition > 8) {
+void fixAposition() { //this function changes Aposition if it is outside the range of login array
+	if ((Aposition > (sizeof(loginarray) / sizeof(loginarray[0]))-1) && Aposition > 0) {
 		Aposition = Aposition - sizeof(loginarray) / sizeof(loginarray[0]);
 	}
 	else if (Aposition < 0) {
@@ -26,14 +26,14 @@ void fixAposition() {//this function changes Aposition if it is outside the rang
 	}
 }
 
-void Printtable(){
+void Printtable(){ 
 	for (int i = 0; i < sizeof(loginarray) / sizeof(loginarray[0]); i++) {
 		if (i == Aposition) {
 			std::cout << "|" << "*" << "|";
 		}
 		else
 		{
-					std::cout << "|" <<loginarray[i]<< "|";
+			std::cout << "|" <<loginarray[i]<< "|";
 		}
 		if ((i+1) % 3 == 0) {
 			std::cout << "\n";
@@ -86,9 +86,10 @@ bool Enterpassword() {
 			input[i] = loginarray[Aposition];
 			break;
 		default:
-			std::cout << "\nYou can only use w,a,s,d or the arrow keys!";
+			std::cout << "\nYou can only use w,a,s,d or the arrow keys!\n press enter to try again";
 			i--;
-			Sleep(3000);
+			std::cin.ignore(256, '\n');
+			std::cin.sync();
 		}
 		system("cls");
 		Printtable();
